@@ -1,0 +1,26 @@
+{
+  "name": "jsonify-that-feed",
+  "version": "1.0.0",
+  "description": "A simple library for turning Atom, RSS and JSON feeds into JSON Feed.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "prepublishOnly": "eslint . && rm -rf dist && tsc",
+    "build": "rm -rf dist && tsc"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "repository": "https://github.com/Ghost-Reader-App/jsonify-that-feed",
+  "author": "Sayem Chowdhury",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "fast-xml-parser": "^3.17.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0"
+  }
+}
