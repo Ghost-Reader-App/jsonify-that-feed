@@ -1,3 +1,4 @@
+import { getStringFromAttr } from './utils';
 import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from './types';
 
 const rssToJson = (rss: rssFeedType): jsonFeedType => {
@@ -7,23 +8,23 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
 
   const rssFeed: jsonFeedType = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: rss.title,
+    title: getStringFromAttr(rss.title),
     feed_url: rss.link,
     description: rss.description,
     items: rss.item.map((item) => {
       const rssItem: jsonFeedItemType = {
-        title: item.title,
+        title: getStringFromAttr(item.title),
         url: item.link,
-        id: item.guid ? item.guid['#text'] : item.link ? item.link : item.title,
+        id: item.guid ? getStringFromAttr(item.guid) : item.link ? item.link : item.title,
       };
       if (item.pubDate) {
         rssItem.date_published = item.pubDate;
       }
       if (item.description) {
-        rssItem.summary = item.description;
+        rssItem.summary = getStringFromAttr(item.description);
       }
       if (item['content:encoded']) {
-        rssItem.content_html = item['content:encoded'];
+        rssItem.content_html = getStringFromAttr(item['content:encoded']);
       }
       if (item['dc:creator']) {
         if (!Array.isArray(item['dc:creator'])) {

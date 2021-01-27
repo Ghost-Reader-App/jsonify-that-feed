@@ -13,6 +13,8 @@ interface xmlType {
 const xmlParserOptions = {
   attributeNamePrefix: '',
   ignoreAttributes: false,
+  parseNodeValue: true,
+  parseAttributeValue: true,
   trimValues: true,
   attrValueProcessor: (val: string) => decode(val),
   tagValueProcessor: (val: string) => decode(val),

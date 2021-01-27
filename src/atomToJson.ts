@@ -1,3 +1,4 @@
+import { getStringFromAttr } from './utils';
 import type { atomFeedType, jsonFeedItemType, jsonFeedType } from './types';
 
 const atomToJson = (atom: atomFeedType): jsonFeedType => {
@@ -7,11 +8,11 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
 
   const atomFeed: jsonFeedType = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: atom.title,
+    title: getStringFromAttr(atom.title),
     description: atom.subtitle || '',
     items: atom.entry.map((item) => {
       const rssItem: jsonFeedItemType = {
-        title: item.title,
+        title: getStringFromAttr(item.title),
         id: item.id,
       };
       if (item.link) {
@@ -27,7 +28,7 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
         rssItem.summary = item.summary;
       }
       if (item.content) {
-        rssItem.content_html = item.content;
+        rssItem.content_html = getStringFromAttr(item.content);
       }
       if (item.category) {
         rssItem.tags = Array.isArray(item.category) ? item.category.map((c) => c.term) : [item.category.term];

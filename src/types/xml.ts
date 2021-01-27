@@ -108,10 +108,7 @@ export interface rssItemType {
   /**
    * A string that uniquely identifies the item. More.
    */
-  guid?: {
-    '#text': string;
-    isPermaLink: 'true' | 'false';
-  };
+  guid?: string;
   'post-id'?: string | number;
   /**
    * Indicates when the item was published. More.
