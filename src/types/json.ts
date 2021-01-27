@@ -17,7 +17,7 @@ interface authors {
 /**
  * attachments (optional, array) lists related resources. Podcasts, for instance, would include an attachment that’s an audio or video file. Each attachment has several members:
  */
-interface attachments {
+export interface jsonFeedAttachmentsType {
   /**
    * title (optional, string) is a name for the attachment. Important: if there are multiple attachments, and two or more have the exact same title (when title is present), then they are considered as alternate representations of the same thing. In this way a podcaster, for instance, might provide an audio recording in different formats.
    */
@@ -89,7 +89,7 @@ export interface jsonFeedItemType {
   /**
    * attachments (optional, array) lists related resources. Podcasts, for instance, would include an attachment that’s an audio or video file.
    */
-  attachments?: attachments[];
+  attachments?: jsonFeedAttachmentsType[];
   /**
    * summary (optional, string) is a plain text sentence or two describing the item. This might be presented in a timeline, for instance, where a detail view would display all of content_html or content_text.
    */

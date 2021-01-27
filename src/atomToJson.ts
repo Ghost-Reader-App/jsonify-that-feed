@@ -43,13 +43,14 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
     }),
   };
 
-  /**
-   * Link is not working with current version of parser
-   * https://github.com/NaturalIntelligence/fast-xml-parser/issues/315
-   */
-  // if (atom.link) {
-  //   atomFeed.feed_url = Array.isArray(atom.link) ? atom.link[0].href : atom.link.href;
-  // }
+  if (atom.link) {
+    if (Array.isArray(atom.link)) {
+      const link = atom.link.find((l) => l.rel === 'self');
+      atomFeed.feed_url = link ? link.href : atom.link[0].href;
+    } else {
+      atomFeed.feed_url = atom.link.href;
+    }
+  }
 
   if (atom.author) {
     atomFeed.authors = Array.isArray(atom.author) ? atom.author : [atom.author];

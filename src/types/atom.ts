@@ -12,6 +12,31 @@ interface linkType {
    * href is the URI of the referenced resource (typically a Web page)
    */
   href: string;
+  /**
+   * rel contains a single link relationship type. It can be a full URI (see extensibility), or one of the following predefined values (default=alternate):
+   * alternate: an alternate representation of the entry or feed, for example a permalink to the html version of the entry, or the front page of the weblog.
+   * enclosure: a related resource which is potentially large in size and might require special handling, for example an audio or video recording.
+   * related: an document related to the entry or feed.
+   * self: the feed itself.
+   * via: the source of the information provided in the entry.
+   */
+  rel?: 'alternate' | 'enclosure' | 'related' | 'self' | 'via';
+  /**
+   * type indicates the media type of the resource.
+   */
+  type?: string;
+  /**
+   * hreflang indicates the language of the referenced resource.
+   */
+  hreflang?: string;
+  /**
+   * title human readable information about the link, typically for display purposes.
+   */
+  title?: string;
+  /**
+   * length the length of the resource, in bytes.
+   */
+  length?: number;
 }
 
 /**

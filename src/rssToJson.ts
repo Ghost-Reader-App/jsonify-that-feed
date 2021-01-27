@@ -1,4 +1,4 @@
-import type { jsonFeedItemType, jsonFeedType, rssFeedType } from './types';
+import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from './types';
 
 const rssToJson = (rss: rssFeedType): jsonFeedType => {
   if (!Array.isArray(rss.item)) {
@@ -14,7 +14,7 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
       const rssItem: jsonFeedItemType = {
         title: item.title,
         url: item.link,
-        id: item.guid || item.link || '',
+        id: item.guid ? item.guid['#text'] : item.link ? item.link : item.title,
       };
       if (item.pubDate) {
         rssItem.date_published = item.pubDate;
@@ -42,6 +42,23 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
             mime_type: item.enclosure.type,
           },
         ];
+      } else if (item['media:content']) {
+        if (!Array.isArray(item['media:content'])) {
+          item['media:content'] = [item['media:content']];
+        }
+        rssItem.attachments = [];
+        for (const a of item['media:content']) {
+          if (a.type) {
+            const mediaContent: jsonFeedAttachmentsType = { url: a.url, mime_type: a.type };
+            if (a.duration) {
+              mediaContent.duration_in_seconds = a.duration;
+            }
+            if (a.fileSize) {
+              mediaContent.size_in_bytes = a.fileSize;
+            }
+            rssItem.attachments.push(mediaContent);
+          }
+        }
       }
       return rssItem;
     }),

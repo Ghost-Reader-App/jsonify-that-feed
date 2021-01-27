@@ -2,6 +2,7 @@ import parser from 'fast-xml-parser';
 import atomToJson from './atomToJson';
 import rssToJson from './rssToJson';
 import json1Upgrade from './json1upgrade';
+import { decode } from 'html-entities';
 import type { atomFeedType, jsonFeedType, rssFeedType } from './types';
 
 interface xmlType {
@@ -9,7 +10,15 @@ interface xmlType {
   feed?: atomFeedType;
 }
 
-export const toJson = async (data: any): Promise<jsonFeedType> => {
+const xmlParserOptions = {
+  attributeNamePrefix: '',
+  ignoreAttributes: false,
+  trimValues: true,
+  attrValueProcessor: (val: string) => decode(val),
+  tagValueProcessor: (val: string) => decode(val),
+};
+
+export const toJson = (data: any): jsonFeedType => {
   if (typeof data === 'object') {
     if (data.version === 'https://jsonfeed.org/version/1.1') {
       return data;
@@ -21,7 +30,7 @@ export const toJson = async (data: any): Promise<jsonFeedType> => {
 
   const validateRss = parser.validate(data);
   if (validateRss === true) {
-    const jsonFeed: xmlType = parser.parse(data);
+    const jsonFeed: xmlType = parser.parse(data, xmlParserOptions);
     if (jsonFeed.rss && jsonFeed.rss.channel) {
       return rssToJson(jsonFeed.rss.channel);
     } else if (jsonFeed.feed) {

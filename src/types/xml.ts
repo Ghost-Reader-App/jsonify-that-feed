@@ -1,4 +1,62 @@
 /**
+ * `media:content` is a sub-element of either `item` or `media:group`. Media objects that are not the same content should not be included in the same <media:group> element. The sequence of these items implies the order of presentation. While many of the attributes appear to be audio/video specific, this element can be used to publish any type of media. It contains 14 attributes, most of which are optional.
+ */
+export interface rssMediaContentType {
+  /**
+   * url should specify the direct URL to the media object. If not included, a `media:player` element must be specified.
+   */
+  url: string;
+  /**
+   * fileSize is the number of bytes of the media object. It is an optional attribute.
+   */
+  fileSize?: number;
+  /**
+   * type is the standard MIME type of the object. It is an optional attribute.
+   */
+  type?: string;
+  /**
+   * medium is the type of object (image | audio | video | document | executable). While this attribute can at times seem redundant if type is supplied, it is included because it simplifies decision making on the reader side, as well as flushes out any ambiguities between MIME type and object type. It is an optional attribute.
+   */
+  medium?: 'image' | 'audio' | 'video' | 'document' | 'executable';
+  /**
+   * expression determines if the object is a sample or the full version of the object, or even if it is a continuous stream (sample | full | nonstop). Default value is "full". It is an optional attribute.
+   */
+  expression?: 'sample' | 'full' | 'nonstop';
+  /**
+   * bitrate is the kilobits per second rate of media. It is an optional attribute.
+   */
+  bitrate?: number;
+  /**
+   * framerate is the number of frames per second for the media object. It is an optional attribute.
+   */
+  framerate?: number;
+  /**
+   * samplingrate is the number of samples per second taken to create the media object. It is expressed in thousands of samples per second (kHz). It is an optional attribute.
+   */
+  samplingrate?: number;
+  /**
+   * channels is number of audio channels in the media object. It is an optional attribute.
+   */
+  channels?: number;
+  /**
+   * duration is the number of seconds the media object plays. It is an optional attribute.
+   */
+  duration?: number;
+  /**
+   * height is the height of the media object. It is an optional attribute.
+   */
+  height?: number;
+  /**
+   * width is the width of the media object. It is an optional attribute.
+   */
+  width?: number;
+  /**
+   * lang is the primary language encapsulated in the media object. Language codes possible are detailed in RFC 3066. This attribute is used similar to the xml:lang attribute detailed in the XML 1.0 Specification (Third Edition). It is an optional attribute.
+   */
+  lang?: string;
+}
+
+/**
  * A channel may contain any number of **item**'s. An item may represent a "story" -- much like a story in a newspaper or magazine; if so its description is a synopsis of the story, and the link points to the full story. An item may also be complete in itself, if so, the description contains the text (entity-encoded HTML is allowed), and the link and title may be omitted. All elements of an item are optional, however at least one of title or description must be present.
  */
 export interface rssItemType {
@@ -44,9 +102,16 @@ export interface rssItemType {
     type: string;
   };
   /**
+   * Media RSS is a new RSS module that supplements the <enclosure> capabilities of RSS 2.0. RSS enclosures are already being used to syndicate audio files and images. Media RSS extends enclosures to handle other media types, such as short films or TV, as well as provide additional metadata with the media. Media RSS enables content publishers and bloggers to syndicate multimedia content such as TV and video clips, movies, images and audio.
+   */
+  'media:content'?: rssMediaContentType | rssMediaContentType[];
+  /**
    * A string that uniquely identifies the item. More.
    */
-  guid?: string;
+  guid?: {
+    '#text': string;
+    isPermaLink: 'true' | 'false';
+  };
   'post-id'?: string | number;
   /**
    * Indicates when the item was published. More.
