@@ -1,3 +1,4 @@
+import mime from 'mime/lite';
 import { getStringFromAttr } from './utils';
 import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from '../types';
 
@@ -49,16 +50,17 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
         }
         rssItem.attachments = [];
         for (const a of item['media:content']) {
-          if (a.type) {
-            const mediaContent: jsonFeedAttachmentsType = { url: a.url, mime_type: a.type };
-            if (a.duration) {
-              mediaContent.duration_in_seconds = a.duration;
-            }
-            if (a.fileSize) {
-              mediaContent.size_in_bytes = a.fileSize;
-            }
-            rssItem.attachments.push(mediaContent);
+          const mediaContent: jsonFeedAttachmentsType = {
+            url: a.url,
+            mime_type: a.type ? a.type : mime.getType('a.url') || 'application/octet-stream',
+          };
+          if (a.duration) {
+            mediaContent.duration_in_seconds = a.duration;
           }
+          if (a.fileSize) {
+            mediaContent.size_in_bytes = a.fileSize;
+          }
+          rssItem.attachments.push(mediaContent);
         }
       }
       return rssItem;
