@@ -15,7 +15,7 @@ yarn add jsonify-that-feed
 
 ```ts
 import axios from 'axios';
-import jsonify from 'jsonify-that-feed';
+import * as jsonify from 'jsonify-that-feed';
 
 const { data } = await axios.get(url);
 const feed = jsonify.toJson(data);

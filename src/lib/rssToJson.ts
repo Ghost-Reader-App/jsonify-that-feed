@@ -1,5 +1,5 @@
 import { getStringFromAttr } from './utils';
-import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from './types';
+import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from '../types';
 
 const rssToJson = (rss: rssFeedType): jsonFeedType => {
   if (!Array.isArray(rss.item)) {

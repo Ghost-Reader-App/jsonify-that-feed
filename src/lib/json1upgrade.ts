@@ -1,4 +1,4 @@
-import type { jsonFeedType } from './types';
+import type { jsonFeedType } from '../types';
 
 const json1Upgrade = (json: jsonFeedType): jsonFeedType => {
   if (json.author && !json.authors) {

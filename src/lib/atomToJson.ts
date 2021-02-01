@@ -1,5 +1,5 @@
 import { getStringFromAttr } from './utils';
-import type { atomFeedType, jsonFeedItemType, jsonFeedType } from './types';
+import type { atomFeedType, jsonFeedItemType, jsonFeedType } from '../types';
 
 const atomToJson = (atom: atomFeedType): jsonFeedType => {
   if (!Array.isArray(atom.entry)) {
