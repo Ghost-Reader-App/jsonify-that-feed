@@ -1,7 +1,7 @@
 /**
  * authors (optional, array of objects) specifies one or more feed authors. The author object has several members. These are all optional — but if you provide an author object, then at least one is required:
  */
-interface authors {
+export interface jsonFeedAuthorsType {
   /**
    * name (optional, string) is the author’s name.
    */
@@ -69,11 +69,11 @@ export interface jsonFeedItemType {
    * JSON Feed version 1 specified a singular author field instead of the authors array used in version 1.1. New feeds should use authors, even if only 1 author is needed. Existing feeds can include both author and authors for compatibility with existing feed readers. Feed readers should always prefer authors if present.
    * Deprecated items remain valid forever, but you should move to the new fields when you can. A feed using fields from JSON Feed 1.0 is still a valid feed for version 1.1 and future versions of JSON Feed.
    */
-  author?: authors;
+  author?: jsonFeedAuthorsType;
   /**
    *   // authors (optional, array of objects) specifies one or more feed authors. The author object has several members. These are all optional — but if you provide an author object, then at least one is required:
    */
-  authors?: authors[];
+  authors?: jsonFeedAuthorsType[];
   /**
    * image (optional, string) is the URL of the main image for the item. This image may also appear in the content_html — if so, it’s a hint to the feed reader that this is the main, featured image. Feed readers may use the image as a preview (probably resized as a thumbnail and placed in a timeline).
    */
@@ -133,11 +133,11 @@ export interface jsonFeedType {
    * JSON Feed version 1 specified a singular author field instead of the authors array used in version 1.1. New feeds should use authors, even if only 1 author is needed. Existing feeds can include both author and authors for compatibility with existing feed readers. Feed readers should always prefer authors if present.
    * Deprecated items remain valid forever, but you should move to the new fields when you can. A feed using fields from JSON Feed 1.0 is still a valid feed for version 1.1 and future versions of JSON Feed.
    */
-  author?: authors;
+  author?: jsonFeedAuthorsType;
   /**
    *   // authors (optional, array of objects) specifies one or more feed authors. The author object has several members. These are all optional — but if you provide an author object, then at least one is required:
    */
-  authors?: authors[];
+  authors?: jsonFeedAuthorsType[];
   /**
    * favicon (optional, string) is the URL of an image for the feed suitable to be used in a source list. It should be square and relatively small, but not smaller than 64 x 64 (so that it can look good on retina displays). As with icon, this image should use transparency where appropriate, since it may be rendered on a non-white background.
    */

@@ -1,5 +1,5 @@
 import { getStringFromAttr } from './utils';
-import type { atomFeedType, jsonFeedItemType, jsonFeedType } from '../types';
+import type { atomFeedType, jsonFeedItemType, jsonFeedAuthorsType, jsonFeedType } from '../types';
 
 const atomToJson = (atom: atomFeedType): jsonFeedType => {
   if (!Array.isArray(atom.entry)) {
@@ -33,12 +33,22 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
       if (item.category) {
         rssItem.tags = Array.isArray(item.category) ? item.category.map((c) => c.term) : [item.category.term];
       }
-      if (item.contributor) {
-        if (Array.isArray(item.contributor)) {
-          rssItem.authors = item.contributor.map((name) => ({ name }));
-        } else {
-          rssItem.authors = [{ name: item.contributor }];
+      if (item.author) {
+        if (!Array.isArray(item.author)) {
+          item.author = [item.author];
         }
+        rssItem.authors = item.author.map((a) => {
+          const author: jsonFeedAuthorsType = { name: a.name };
+          if (a.uri) {
+            author.url = a.uri;
+          }
+          return author;
+        });
+      } else if (item.contributor) {
+        if (!Array.isArray(item.contributor)) {
+          item.contributor = [item.contributor];
+        }
+        rssItem.authors = item.contributor.map((name) => ({ name }));
       }
       if (item['media:thumbnail']) {
         rssItem.image = item['media:thumbnail'].url;

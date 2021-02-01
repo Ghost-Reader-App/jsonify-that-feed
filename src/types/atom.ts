@@ -1,3 +1,6 @@
+/**
+ * A feed may have multiple author elements. A feed must contain at least one author element unless all of the entry elements contain at least one author element.
+ */
 interface authorType {
   name: string;
   email?: string;
@@ -88,7 +91,7 @@ export interface atomItemType {
   /**
    * Names one author of the entry. An entry may have multiple authors. An entry must contain at least one author element unless there is an author element in the enclosing feed, or there is an author element in the enclosed source element.
    */
-  author?: string;
+  author?: authorType | authorType[];
   /**
    * 	Names one contributor to the entry. An entry may have multiple contributor elements.
    */
