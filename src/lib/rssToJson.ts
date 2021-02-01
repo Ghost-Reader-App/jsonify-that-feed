@@ -1,6 +1,30 @@
 import mime from 'mime/lite';
 import { getStringFromAttr } from './utils';
-import type { jsonFeedAttachmentsType, jsonFeedItemType, jsonFeedType, rssFeedType } from '../types';
+import type {
+  jsonFeedAttachmentsType,
+  jsonFeedItemType,
+  jsonFeedType,
+  rssFeedType,
+  rssMediaContentType,
+} from '../types';
+
+const getAttachments = (item: rssMediaContentType[]): jsonFeedAttachmentsType[] => {
+  const attachments = [];
+  for (const a of item) {
+    const mediaContent: jsonFeedAttachmentsType = {
+      url: a.url,
+      mime_type: a.type ? a.type : mime.getType('a.url') || 'application/octet-stream',
+    };
+    if (a.duration) {
+      mediaContent.duration_in_seconds = a.duration;
+    }
+    if (a.fileSize) {
+      mediaContent.size_in_bytes = a.fileSize;
+    }
+    attachments.push(mediaContent);
+  }
+  return attachments;
+};
 
 const rssToJson = (rss: rssFeedType): jsonFeedType => {
   if (!Array.isArray(rss.item)) {
@@ -45,22 +69,14 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
           },
         ];
       } else if (item['media:content']) {
-        if (!Array.isArray(item['media:content'])) {
-          item['media:content'] = [item['media:content']];
-        }
-        rssItem.attachments = [];
-        for (const a of item['media:content']) {
-          const mediaContent: jsonFeedAttachmentsType = {
-            url: a.url,
-            mime_type: a.type ? a.type : mime.getType('a.url') || 'application/octet-stream',
-          };
-          if (a.duration) {
-            mediaContent.duration_in_seconds = a.duration;
+        if (Array.isArray(item['media:content'])) {
+          rssItem.attachments = getAttachments(item['media:content']);
+        } else {
+          if (item['media:content'].medium === 'image') {
+            rssItem.image = item['media:content'].url;
+          } else {
+            rssItem.attachments = getAttachments([item['media:content']]);
           }
-          if (a.fileSize) {
-            mediaContent.size_in_bytes = a.fileSize;
-          }
-          rssItem.attachments.push(mediaContent);
         }
       }
       return rssItem;

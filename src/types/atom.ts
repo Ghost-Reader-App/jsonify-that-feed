@@ -113,6 +113,14 @@ export interface atomItemType {
     title: string;
     updated: Date;
   };
+  /**
+   * Describes a image object that is attached to the item.
+   */
+  'media:thumbnail'?: {
+    url: string;
+    height: number;
+    width: number;
+  };
 }
 
 export interface atomFeedType {

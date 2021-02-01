@@ -40,6 +40,9 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
           rssItem.authors = [{ name: item.contributor }];
         }
       }
+      if (item['media:thumbnail']) {
+        rssItem.image = item['media:thumbnail'].url;
+      }
       return rssItem;
     }),
   };
