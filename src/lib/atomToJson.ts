@@ -70,6 +70,10 @@ const atomToJson = (atom: atomFeedType): jsonFeedType => {
     atomFeed.authors = Array.isArray(atom.author) ? atom.author : [atom.author];
   }
 
+  if (atom.logo) {
+    atomFeed.icon = atom.logo;
+  }
+
   return atomFeed;
 };
 

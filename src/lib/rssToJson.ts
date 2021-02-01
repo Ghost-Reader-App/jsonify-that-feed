@@ -83,6 +83,9 @@ const rssToJson = (rss: rssFeedType): jsonFeedType => {
     }),
   };
 
+  if (rss.image) {
+    rssFeed.icon = rss.image.url;
+  }
   if (rss['sy:updatePeriod']) {
     rssFeed.updatePeriod = rss['sy:updatePeriod'];
   }
