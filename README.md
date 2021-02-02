@@ -1,17 +1,19 @@
 ### [jsonify-that-feed](https://www.npmjs.com/package/jsonify-that-feed)
 
-Parse `Atom`, `RSS` and `JSON` feeds to `JSON Feed 1.1`.
+Parse `Atom`, `RSS`, `JSON` feeds to `JSON Feed 1.1`.
+
+Or `OPML` to `JSON` and vice versa.
 
 This module is specifically developed for [Ghost Reader](https://ghostreaderapp.com)
 
-### Install
+#### Install
 
 ```shell
 # with npm: npm i jsonify-that-feed
 yarn add jsonify-that-feed
 ```
 
-### Usage Example
+#### Atom, RSS, JSON > JSON 1.1
 
 ```ts
 import axios from 'axios';
@@ -28,16 +30,57 @@ console.log(feed);
     "feed_url"?: "https://example.org/feed.json",
     "items": [
       {
-        "id": "2",
-        "content_text"?: "This is a second item.",
-        "url"?: "https://example.org/second-item"
-      },
-      {
         "id": "1",
         "content_html"?: "<p>Hello, world!</p>",
         "url"?: "https://example.org/initial-post"
       }
     ]
   }
+*/
+```
+
+#### OPML > JSON
+
+```ts
+const json = jsonify.opmlToJson(data);
+console.log(json);
+/**
+  {
+    version: 2,
+    head: { title: 'Ghost Reader Subscriptions' },
+    body: {
+      outline: [
+        {
+          text: 'Example',
+          title: 'Example',
+          type: 'rss',
+          xmlUrl: 'https://example.com/feed',
+          htmlUrl: 'https://example.com',
+        },
+      ],
+    },
+  }
+*/
+```
+
+#### JSON > OPML
+
+```ts
+const opml = jsonify.jsonToOpml(data);
+console.log(opml);
+/**
+  <version>2</version>
+  <head>
+    <title>Ghost Reader Subscriptions</title>
+  </head>
+  <body>
+    <outline>
+      <text>Example</text>
+      <title>Example</title>
+      <type>rss</type>
+      <xmlUrl>https://example.com/feed</xmlUrl>
+      <htmlUrl>https://example.com</htmlUrl>
+    </outline>
+  </body>
 */
 ```
