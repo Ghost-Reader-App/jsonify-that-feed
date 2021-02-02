@@ -2,12 +2,14 @@ import parser from 'fast-xml-parser';
 import atomToJson from './atomToJson';
 import rssToJson from './rssToJson';
 import json1Upgrade from './json1upgrade';
+import opmlJson from './opmlJson';
 import { decode } from 'html-entities';
-import type { atomFeedType, jsonFeedType, rssFeedType } from '../types';
+import type { atomFeedType, jsonFeedType, rssFeedType, opmlType } from '../types';
 
 interface xmlType {
   rss?: { channel: rssFeedType };
   feed?: atomFeedType;
+  opml?: opmlType;
 }
 
 const xmlParserOptions = {
@@ -42,5 +44,20 @@ export const toJson = (data: any): jsonFeedType => {
   }
   throw new Error(
     validateRss && validateRss.err && validateRss.err.msg ? validateRss.err.msg : 'Feed validation failure'
+  );
+};
+
+export const opmlToJson = (data: string): opmlType => {
+  data = data.trim();
+  const validateOpml = parser.validate(data);
+  if (validateOpml === true) {
+    const opmlFeed: xmlType = parser.parse(data, xmlParserOptions);
+    if (opmlFeed.opml && opmlFeed.opml.body && opmlFeed.opml.body.outline) {
+      return opmlJson(opmlFeed.opml);
+    }
+    throw new Error('Unknown opml type');
+  }
+  throw new Error(
+    validateOpml && validateOpml.err && validateOpml.err.msg ? validateOpml.err.msg : 'Opml validation failure'
   );
 };
