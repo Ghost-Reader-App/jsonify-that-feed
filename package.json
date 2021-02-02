@@ -1,6 +1,6 @@
 {
   "name": "jsonify-that-feed",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A simple library for turning Atom, RSS and JSON feeds into JSON Feed.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,8 +12,20 @@
   "engines": {
     "node": ">=10.0.0"
   },
+  "homepage": "https://ghostreaderapp.com",
   "repository": "https://github.com/Ghost-Reader-App/jsonify-that-feed",
   "author": "Sayem Chowdhury",
+  "keywords": [
+    "rss",
+    "json",
+    "opml",
+    "feed",
+    "parser",
+    "atom",
+    "sy",
+    "syndication",
+    "xml"
+  ],
   "license": "MIT",
   "private": false,
   "dependencies": {
