@@ -61,3 +61,8 @@ export const opmlToJson = (data: string): opmlType => {
     validateOpml && validateOpml.err && validateOpml.err.msg ? validateOpml.err.msg : 'Opml validation failure'
   );
 };
+
+export const jsonToOpml = (data: opmlType): string => {
+  const j2xParser = new parser.j2xParser({ format: true });
+  return j2xParser.parse(data);
+};
