@@ -5,7 +5,7 @@ interface attrType {
 
 export const getStringFromAttr = (val: string | attrType): string => {
   if (typeof val === 'object') {
-    return val['#text'];
+    return val['#text'] + '';
   }
-  return val;
+  return val + '';
 };
