@@ -3,7 +3,7 @@ import atomToJson from './atomToJson';
 import rssToJson from './rssToJson';
 import json1Upgrade from './json1upgrade';
 import opmlJson from './opmlJson';
-import { decode } from 'html-entities';
+import { encode, decode } from 'html-entities';
 import type { atomFeedType, jsonFeedType, rssFeedType, opmlType } from '../types';
 
 interface xmlType {
@@ -63,6 +63,10 @@ export const opmlToJson = (data: string): opmlType => {
 };
 
 export const jsonToOpml = (data: opmlType): string => {
-  const j2xParser = new parser.j2xParser({ format: true });
-  return j2xParser.parse(data);
+  const j2xParser = new parser.j2xParser({
+    format: true,
+    tagValueProcessor: (val) => encode(val.toString()),
+    attrValueProcessor: (val) => encode(val),
+  });
+  return j2xParser.parse({ opml: data });
 };
