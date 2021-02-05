@@ -18,8 +18,6 @@ const xmlParserOptions = {
   parseNodeValue: true,
   parseAttributeValue: true,
   trimValues: true,
-  attrValueProcessor: (val: string) => decode(val),
-  tagValueProcessor: (val: string) => decode(val),
 };
 
 export const toJson = (data: any): jsonFeedType => {
@@ -34,7 +32,7 @@ export const toJson = (data: any): jsonFeedType => {
 
   const validateRss = parser.validate(data);
   if (validateRss === true) {
-    const jsonFeed: xmlType = parser.parse(data, xmlParserOptions);
+    const jsonFeed: xmlType = parser.parse(decode(data), xmlParserOptions);
     if (jsonFeed.rss && jsonFeed.rss.channel) {
       return rssToJson(jsonFeed.rss.channel);
     } else if (jsonFeed.feed) {
@@ -51,7 +49,7 @@ export const opmlToJson = (data: string): opmlType => {
   data = data.trim();
   const validateOpml = parser.validate(data);
   if (validateOpml === true) {
-    const opmlFeed: xmlType = parser.parse(data, xmlParserOptions);
+    const opmlFeed: xmlType = parser.parse(decode(data), xmlParserOptions);
     if (opmlFeed.opml && opmlFeed.opml.body && opmlFeed.opml.body.outline) {
       return opmlJson(opmlFeed.opml);
     }
