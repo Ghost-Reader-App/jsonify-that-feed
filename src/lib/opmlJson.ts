@@ -10,14 +10,11 @@ const opmlJson = (opml: opmlType): opmlType => {
   for (const o of opml.body.outline) {
     if (o.text) {
       outline.push(o);
-      // @ts-ignore
     } else if (o.outline) {
-      // @ts-ignore
+      // an outline group without its own text carries nested outlines
       if (!Array.isArray(o.outline)) {
-        // @ts-ignore
         o.outline = [o.outline];
       }
-      // @ts-ignore
       for (const i of o.outline) {
         if (i.text) {
           outline.push(i);

@@ -16,25 +16,21 @@ export interface opmlItemType {
   /**
    * rss or json feed url
    */
-  xmlUrl: string;
+  xmlUrl?: string;
   /**
-   * atom, rss, json or something else
-   */
-  type: string;
-  /**
-   * short description about this feed
-   */
-  description?: string;
-  /**
-   * main website address
+   * html url of the feed
    */
   htmlUrl?: string;
   /**
-   * category is a string of comma-separated slash-delimited category strings, in the format defined by the RSS 2.0 category element. To represent a "tag," the category string should contain no slashes. Examples: 1. category="/Boston/Weather". 2. category="/Harvard/Berkman,/Politics".
+   * type of the feed (rss or json)
    */
-  category?: string;
+  type?: string;
   /**
-   * Language codes possible are detailed in RFC 3066
+   * Zero or more nested outline sub-elements
+   */
+  outline?: opmlItemType | opmlItemType[];
+  /**
+   * language of the feed
    */
   language?: string;
   /**
@@ -70,7 +66,7 @@ export interface opmlType {
      */
     ownerName?: string;
     /**
-     * `ownerEmail` is a string, the email address of the owner of the document.
+     * `ownerEmail` is a string, the owner of the document.
      */
     ownerEmail?: string;
   };

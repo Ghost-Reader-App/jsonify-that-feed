@@ -1,4 +1,4 @@
-import mime from 'mime/lite';
+import { lookup } from 'mime-types';
 import { getStringFromAttr } from './utils';
 import type {
   jsonFeedAttachmentsType,
@@ -13,7 +13,7 @@ const getAttachments = (item: rssMediaContentType[]): jsonFeedAttachmentsType[] 
   for (const a of item) {
     const mediaContent: jsonFeedAttachmentsType = {
       url: a.url,
-      mime_type: a.type ? a.type : mime.getType('a.url') || 'application/octet-stream',
+      mime_type: a.type ? a.type : lookup(a.url) || 'application/octet-stream',
     };
     if (a.duration) {
       mediaContent.duration_in_seconds = a.duration;

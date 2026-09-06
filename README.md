@@ -6,6 +6,8 @@ Or `OPML` to `JSON` and vice versa.
 
 This module is specifically developed for [Ghost Reader](https://ghostreaderapp.com)
 
+> Requires Node.js >= 20.
+
 #### Install
 
 ```shell
