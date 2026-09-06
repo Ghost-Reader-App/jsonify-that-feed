@@ -1,6 +1,6 @@
 {
   "name": "jsonify-that-feed",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "A simple library for turning Atom, RSS and JSON feeds into JSON Feed.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,7 +35,6 @@
   "private": false,
   "dependencies": {
     "fast-xml-parser": "5.11.1",
-    "html-entities": "2.6.0",
     "mime-types": "3.0.2"
   },
   "devDependencies": {
