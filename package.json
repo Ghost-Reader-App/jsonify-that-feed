@@ -9,9 +9,10 @@
   ],
   "scripts": {
     "lint": "eslint .",
+    "build": "tsc",
+    "pretest": "npm run build",
     "test": "npm run lint && mocha tests/**/*.js",
-    "prepublishOnly": "npm run lint && npm run test && npm run build",
-    "build": "tsc"
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
   },
   "engines": {
     "node": ">=20"
