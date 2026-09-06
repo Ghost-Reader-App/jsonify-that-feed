@@ -17,7 +17,7 @@
   "engines": {
     "node": ">=20"
   },
-  "homepage": "https://ghostreaderapp.com",
+  "homepage": "https://github.com/Ghost-Reader-App/jsonify-that-feed#readme",
   "repository": "https://github.com/Ghost-Reader-App/jsonify-that-feed",
   "author": "Sayem Chowdhury",
   "keywords": [
