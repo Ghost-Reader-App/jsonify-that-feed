@@ -1,9 +1,8 @@
-import parser from 'fast-xml-parser';
+import { XMLParser, XMLValidator, XMLBuilder } from 'fast-xml-parser';
 import atomToJson from './atomToJson';
 import rssToJson from './rssToJson';
 import json1Upgrade from './json1upgrade';
 import opmlJson from './opmlJson';
-import { encode, decode } from 'html-entities';
 import type { atomFeedType, jsonFeedType, rssFeedType, opmlType } from '../types';
 
 interface xmlType {
@@ -30,9 +29,11 @@ export const toJson = (data: any): jsonFeedType => {
     throw new Error('Feed validation failure');
   }
 
-  const validateRss = parser.validate(data);
+  const validateRss = XMLValidator.validate(data);
   if (validateRss === true) {
-    const jsonFeed: xmlType = parser.parse(decode(data), xmlParserOptions);
+    // fast-xml-parser decodes entities itself while parsing, decoding the
+    // document here would corrupt element text into child nodes
+    const jsonFeed: xmlType = new XMLParser(xmlParserOptions).parse(data);
     if (jsonFeed.rss && jsonFeed.rss.channel) {
       return rssToJson(jsonFeed.rss.channel);
     } else if (jsonFeed.feed) {
@@ -47,9 +48,9 @@ export const toJson = (data: any): jsonFeedType => {
 
 export const opmlToJson = (data: string): opmlType => {
   data = data.trim();
-  const validateOpml = parser.validate(data);
+  const validateOpml = XMLValidator.validate(data);
   if (validateOpml === true) {
-    const opmlFeed: xmlType = parser.parse(decode(data), xmlParserOptions);
+    const opmlFeed: xmlType = new XMLParser(xmlParserOptions).parse(data);
     if (opmlFeed.opml && opmlFeed.opml.body && opmlFeed.opml.body.outline) {
       return opmlJson(opmlFeed.opml);
     }
@@ -61,10 +62,7 @@ export const opmlToJson = (data: string): opmlType => {
 };
 
 export const jsonToOpml = (data: opmlType): string => {
-  const j2xParser = new parser.j2xParser({
-    format: true,
-    tagValueProcessor: (val) => encode(val.toString()),
-    attrValueProcessor: (val) => encode(val),
-  });
-  return j2xParser.parse({ opml: data });
+  // fast-xml-parser v5 escapes text and attribute values itself, the v3 era
+  // custom entity processors would double-encode here
+  return new XMLBuilder({ format: true }).build({ opml: data });
 };

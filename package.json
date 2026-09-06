@@ -4,13 +4,17 @@
   "description": "A simple library for turning Atom, RSS and JSON feeds into JSON Feed.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint .",
-    "prepublishOnly": "eslint . && rm -rf dist && tsc",
-    "build": "rm -rf dist && tsc"
+    "test": "npm run lint && mocha tests/**/*.js",
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "build": "tsc"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=20"
   },
   "homepage": "https://ghostreaderapp.com",
   "repository": "https://github.com/Ghost-Reader-App/jsonify-that-feed",
@@ -29,13 +33,20 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "fast-xml-parser": "^3.18.0",
-    "html-entities": "^2.1.0",
-    "mime": "^2.5.0"
+    "fast-xml-parser": "5.11.1",
+    "html-entities": "2.6.0",
+    "mime-types": "3.0.2"
   },
   "devDependencies": {
-    "@types/mime": "^2.0.3",
-    "eslint": "^7.19.0",
-    "eslint-config-prettier": "^7.2.0"
+    "@eslint/js": "10.0.1",
+    "@types/mime-types": "3.0.1",
+    "@types/mocha": "10.0.10",
+    "@types/node": "26.4.1",
+    "eslint": "10.10.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.12.0",
+    "mocha": "12.0.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.69.0"
   }
 }
